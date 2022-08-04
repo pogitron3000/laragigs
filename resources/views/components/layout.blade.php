@@ -32,7 +32,7 @@
         @auth
             <ul class="flex space-x-6 mr-6 text-lg">
                 <li>
-                    <a href="/listins/manage" class="hover:text-laravel"><i class="fa-solid fa-gear"></i> Manage
+                    <a href="/listings/manage" class="hover:text-laravel"><i class="fa-solid fa-gear"></i> Manage
                         Listings</a>
                 </li>
                 <li>

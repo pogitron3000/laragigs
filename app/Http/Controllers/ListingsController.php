@@ -11,7 +11,7 @@ class ListingsController extends Controller
     public function index()
     {
         return view('listings.index', [
-            'listings' => Listings::latest()->filter(request(['tag', 'search']))->get()
+            'listings' => Listings::latest()->filter(request(['tag', 'search']))->paginate(6)
         ]);
     }
 
@@ -42,11 +42,18 @@ class ListingsController extends Controller
             $formFields['logo'] = $request->file('logo')->store('public', 'logos');
         }
 
+        $formFields['user_id'] = auth()->id();
+
         Listings::create($formFields);
         return redirect('/')->with('message', 'The listing successfully created');
     }
 
     public function edit(Listings $listing) {
+
+        if($listing->user_id !== auth()->id()) {
+            abort(404, 'Unauthorized Action');
+        }
+
         return view('listings.edit', ['listing' => $listing]);
     }
 
@@ -62,7 +69,7 @@ class ListingsController extends Controller
             'description' => 'required',
         ]);
         if ($request->hasFile('logo')) {
-            $formFields['logo'] = $request->file('logo')->store('public', 'logos');
+            $formFields['logo'] = $request->file('logo')->store('logos', 'public');
         }
 
         $listing->update($formFields);
@@ -71,8 +78,17 @@ class ListingsController extends Controller
 
     public function destroy(Listings $listing) {
 
+        if($listing->user_id !== auth()->id()) {
+            abort(404, 'Unauthorized Action');
+        }
+
         $listing->delete();
         return redirect('/')->with('message', 'The listing successfully deleted');
+    }
 
+    public function manage() {
+        return view('listings.manage', [
+            'listings' => auth()->user()->listings()->get()
+        ]);
     }
 }
