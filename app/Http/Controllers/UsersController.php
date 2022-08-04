@@ -6,7 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
-class UsersCotroller extends Controller
+class UsersController extends Controller
 {
     public function register() {
         return view('users.register');
@@ -24,6 +24,16 @@ class UsersCotroller extends Controller
 
         auth()->login($user);
 
-        return redirect('/')->with('message', 'User successfully created and loged in');
+        return redirect('/')->with('message', 'User successfully created and logged in');
+    }
+
+    public function logout(Request $request) {
+        auth()->logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/')->with('message', 'User logged out');
+
     }
 }
