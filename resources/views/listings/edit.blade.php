@@ -4,10 +4,9 @@
             <h2 class="text-2xl font-bold uppercase mb-1">
                 Edit a Gig
             </h2>
-            {{-- <p class="mb-4">Edit a gig to find a developer</p> --}}
         </header>
 
-        <form method="POST" action="/listings/edit" enctype="multipart/form-data">
+        <form method="POST" action="/listings/{{$listing->id}}" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="mb-6">
