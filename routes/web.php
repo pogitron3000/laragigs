@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ListingsController;
+use App\Http\Controllers\UsersCotroller;
 use App\Models\Listings;
 use Illuminate\Support\Facades\Route;
 
@@ -29,3 +30,7 @@ Route::delete('/listings/{listing}', [ListingsController::class, 'destroy']);
 
 Route::get('/listings/{listing}', [ListingsController::class, 'show']); 
 
+
+Route::get('/register', [UsersCotroller::class, 'register']);
+
+Route::post('/users', [UsersCotroller::class, 'store']);
